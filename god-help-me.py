@@ -1,6 +1,18 @@
 import asyncio
-import threading
 from pyartnet import ArtNetNode, Channel
+from dataclasses import dataclass
+from typing import Tuple
+
+@dataclass
+class RGBW:
+    """Data helper."""
+    Red: int
+    Green: int
+    Blue: int
+    White: int
+
+    def to_GRBW(self) -> Tuple:
+        return [self.Green, self.Red, self.Blue, self.White]
 
 IP = '2.0.0.6'
 ALL_UNIVERSES = [199, 200, 201, 205, 206, 207, 211, 212, 217]
@@ -35,8 +47,8 @@ async def set_ring(node: ArtNetNode, universe_list, color):
 async def main():
     async with ArtNetNode.create(IP, 6454) as node:
         await asyncio.gather(
-            set_ring(node, INNER_UNIVERSE, OFF),
-            set_ring(node, OUTER_UNIVERSE, OFF),
+            set_ring(node, INNER_UNIVERSE, RGBW(255, 0, 0, 0).to_GRBW()),
+            set_ring(node, OUTER_UNIVERSE, RGBW(0, 255, 0, 0).to_GRBW()),
         )
 
 asyncio.run(main())

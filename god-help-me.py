@@ -3,9 +3,10 @@ import threading
 from pyartnet import ArtNetNode, Channel
 
 IP = '2.0.0.6'
-INNER_UNIVERSE = [199, 200, 201, 205, 206, 207, 211, 212, 217]
+ALL_UNIVERSES = [199, 200, 201, 205, 206, 207, 211, 212, 217]
 INNER_UNIVERSE = [211, 212, 217]
 OUTER_UNIVERSE = [199, 200, 201, 205, 206, 207]
+
 # GRBW
 ORANGE = [128, 255, 3, 0]
 BLUE = [112, 5, 252, 0]
@@ -25,7 +26,7 @@ async def set_ring(node: ArtNetNode, universe_list, color):
 
 async def main():
     async with ArtNetNode.create(IP, 6454) as node:
-        await set_ring(node, INNER_UNIVERSE, BLUE)
-        await set_ring(node, OUTER_UNIVERSE, ORANGE)
+        await set_ring(node, INNER_UNIVERSE, RED)
+        await set_ring(node, OUTER_UNIVERSE, BLUE)
 
 asyncio.run(main())

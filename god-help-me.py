@@ -12,6 +12,7 @@ WHITE = [0, 0, 0, 255]
 ORANGE = [128, 255, 3, 0]
 BLUE = [112, 5, 252, 0]
 RED = [0, 255, 100, 0]
+OFF = [0, 0, 0, 0]
 
 async def set_color(channel: Channel, color):
     channel.add_fade(color*128, 1000)
@@ -34,8 +35,8 @@ async def set_ring(node: ArtNetNode, universe_list, color):
 async def main():
     async with ArtNetNode.create(IP, 6454) as node:
         await asyncio.gather(
-            set_ring(node, INNER_UNIVERSE, BLUE),
-            set_ring(node, OUTER_UNIVERSE, RED),
+            set_ring(node, INNER_UNIVERSE, OFF),
+            set_ring(node, OUTER_UNIVERSE, OFF),
         )
 
 asyncio.run(main())

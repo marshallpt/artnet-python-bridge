@@ -44,11 +44,15 @@ async def set_ring(node: ArtNetNode, universe_list, color):
 
     await asyncio.gather(*tasks)
 
+class RingHelper():
+    def __init__(self):
+        self.node = ArtNetNode.create(IP, 6454)
+
 async def main():
     async with ArtNetNode.create(IP, 6454) as node:
         await asyncio.gather(
-            set_ring(node, INNER_UNIVERSE, RGBW(255, 0, 0, 0).to_GRBW()),
-            set_ring(node, OUTER_UNIVERSE, RGBW(0, 255, 0, 0).to_GRBW()),
+            set_ring(node, INNER_UNIVERSE, BLUE),
+            set_ring(node, OUTER_UNIVERSE, RED),
         )
 
 asyncio.run(main())

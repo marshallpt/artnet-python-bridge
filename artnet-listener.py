@@ -1,7 +1,7 @@
 import time
 import sys
-sys.path.insert(0, '..')
 from python_artnet import python_artnet as Artnet
+from ring_helper import RGBW
 
 debug = True
 
@@ -32,7 +32,6 @@ while True:
                 sequenceNo = artNetPacket.sequence
                 
                 # Then print out the data from each channel
-                print("Sequence no: ", sequenceNo)
                 print("Received data: ", end="")
                 for i in dmxChannels:
                     # Lists in python start at 0, so to access a specific DMX channel you have to subtract one

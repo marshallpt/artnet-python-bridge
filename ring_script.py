@@ -11,7 +11,7 @@ BLUE = [112, 5, 252, 0]
 RED = [0, 255, 100, 0]
 OFF = [0, 0, 0, 0]
 
-MAGENTA = RGBW(100, 28, 1, 0).to_GRBW()
+MAGENTA = RGBW(237, 4, 249, 0).to_GRBW()
 ORANGE = RGBW(100, 11, 0, 0).to_GRBW()
 
 async def set_color(channel: Channel, color):
@@ -35,8 +35,8 @@ async def set_ring(node: ArtNetNode, universe_list, color):
 async def main():
     async with ArtNetNode.create(IP, 6454) as node:
         await asyncio.gather(
-            set_ring(node, INNER_UNIVERSE, MAGENTA),
-            set_ring(node, OUTER_UNIVERSE, ORANGE),
+            set_ring(node, INNER_UNIVERSE, RED),
+            set_ring(node, OUTER_UNIVERSE, BLUE),
         )
 
 asyncio.run(main())

@@ -4,24 +4,27 @@ from pyartnet import ArtNetNode
 IP = '2.0.0.6'
 UNIVERSE_START = 199
 UNIVERSE_END = 200
+UNIVERSE_LIST = [199, 200, 201, 205, 206, 207, 211, 212, 217]
 
 async def main():
 
     async with ArtNetNode.create(IP, 6454) as node:
          # Create universe 0
-        universe = node.add_universe(199)
+        for universe_id in UNIVERSE_LIST:
+            print(f"UNIVERSE: {universe_id}")
+            universe = node.add_universe(universe_id)
 
-        # Add a channel to the universe which consists of 3 values
-        # Default size of a value is 8Bit (0..255) so this would fill
-        # the DMX values 1..3 of the universe
-        # for i in range(1, 512, 4):
-        channel = universe.add_channel(start=1, width=512)
+            # Add a channel to the universe which consists of 3 values
+            # Default size of a value is 8Bit (0..255) so this would fill
+            # the DMX values 1..3 of the universe
+            # for i in range(1, 512, 4):
+            channel = universe.add_channel(start=1, width=512)
 
-        # Fade channel to 255,0,0 in 5s
-        # The fade will automatically run in the background
-        channel.add_fade([255]*512, 1)
+            # Fade channel to 255,0,0 in 5s
+            # The fade will automatically run in the background
+            channel.add_fade([255]*512, 1)
 
-        # this can be used to wait till the fade is complete
-        await channel
+            # this can be used to wait till the fade is complete
+            await channel
 
 asyncio.run(main())

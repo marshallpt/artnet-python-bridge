@@ -5,7 +5,7 @@ from typing import Tuple, List
 
 @dataclass
 class RGBW:
-    """Data helper."""
+    """Color helper."""
     Red: int
     Green: int
     Blue: int
@@ -16,6 +16,7 @@ class RGBW:
 
 @dataclass
 class Fixture:
+    """List of universes and a color to assign them."""
     Universes: List[int]
     Color: RGBW
 
@@ -37,7 +38,7 @@ async def fade_color(channel: Channel, color, time: int):
     channel.set_fade(color*128, 1000)
     await channel
 
-async def assign_fixture(node: ArtNetNode, fixtures: List[Fixture], time: int=0):
+async def assign_fixtures(node: ArtNetNode, fixtures: List[Fixture], time: int=0):
     tasks = []
     
     for fixture in fixtures:

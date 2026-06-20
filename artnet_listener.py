@@ -4,7 +4,7 @@
 import time
 import sys
 from python_artnet import python_artnet as Artnet
-from ring_helper import RGBW, IP, Fixture, assign_fixture, A_INNER, A_OUTER, B_INNER, B_OUTER
+from ring_helper import RGBW, IP, Fixture, assign_fixtures, A_INNER, A_OUTER, B_INNER, B_OUTER
 from pyartnet import ArtNetNode
 import asyncio
 
@@ -45,7 +45,7 @@ async def main():
                             Fixture(B_OUTER, new_b_outer)
                         ]
                         print(f"{fixtures=}")
-                        await assign_fixture(node=node, fixtures=fixtures)
+                        await assign_fixtures(node=node, fixtures=fixtures)
                         
             time.sleep(0.0001)
             

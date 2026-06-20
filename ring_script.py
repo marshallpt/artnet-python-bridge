@@ -24,7 +24,7 @@ async def main():
     async with ArtNetNode.create(IP, 6454) as node:
         await asyncio.gather(
             set_ring(node, INNER_UNIVERSE, BLUE, TIME),
-            set_ring(node, OUTER_UNIVERSE, PURPLE, TIME),
+            set_ring(node, OUTER_UNIVERSE, PURPLE, TIME)
         )
 
 asyncio.run(main())

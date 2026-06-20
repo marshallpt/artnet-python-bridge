@@ -1,7 +1,7 @@
 import time
 import sys
 from python_artnet import python_artnet as Artnet
-from ring_helper import RGBW, IP, set_inner_ring, set_outer_ring
+from ring_helper import RGBW, IP, set_b_ring, set_a_ring
 from pyartnet import ArtNetNode, Channel
 import asyncio
 
@@ -37,11 +37,13 @@ async def main():
                         
                         # Then print out the data from each channel
                         print("Received data: ", end="")
-                        new_inner = RGBW(dmxPacket[0], dmxPacket[1], dmxPacket[2], dmxPacket[3])
-                        new_outer = RGBW(dmxPacket[4], dmxPacket[5], dmxPacket[6], dmxPacket[7])
-                        print(f"{new_inner=}{new_outer=}")
-                        await set_outer_ring(node, new_outer, 1000)
-                        await set_inner_ring(node, new_inner, 1000)
+                        a_inner = RGBW(dmxPacket[0], dmxPacket[1], dmxPacket[2], dmxPacket[3])
+                        a_outer = RGBW(dmxPacket[4], dmxPacket[5], dmxPacket[6], dmxPacket[7])
+                        b_inner = RGBW(dmxPacket[8], dmxPacket[9], dmxPacket[10], dmxPacket[11])
+                        b_outer = RGBW(dmxPacket[12], dmxPacket[13], dmxPacket[14], dmxPacket[15])
+                        print(f"{a_inner=}{a_outer=}{b_inner=}{b_outer=}")
+                        await set_a_ring(node, a_inner, a_outer)
+                        await set_b_ring(node, b_inner, b_outer)
             time.sleep(0.01)
             
         except KeyboardInterrupt:

@@ -1,15 +1,7 @@
 import asyncio
-from pyartnet import ArtNetNode, Channel
-from dataclasses import dataclass
-from typing import Tuple
-from ring_helper import RGBW, ALL_UNIVERSES, IP, assign_fixtures, Fixture
-
-# GRBW
-WHITE = [0, 0, 0, 255]
-ORANGE = [128, 255, 3, 0]
-BLUE = [112, 5, 252, 0]
-PINK = [0, 255, 100, 0]
-OFF = [0, 0, 0, 0]
+from pyartnet import ArtNetNode
+from ring_helper import ALL_UNIVERSES, RING_CONTROLLER_IP
+from artnet_helper import RGBW, Fixture, assign_fixtures
 
 MAGENTA = RGBW(237, 4, 249, 0)
 ORANGE = RGBW(100, 11, 0, 0)
@@ -21,8 +13,8 @@ PURPLE = RGBW(134, 2, 249, 0)
 TIME = 1000
 
 async def main():
-    async with ArtNetNode.create(IP, 6454) as node:
-        entire_ring = Fixture(ALL_UNIVERSES, YELLOW)
+    async with ArtNetNode.create(RING_CONTROLLER_IP, 6454) as node:
+        entire_ring = Fixture(ALL_UNIVERSES, RED)
         await asyncio.gather(
             assign_fixtures(node, [entire_ring], TIME)
         )

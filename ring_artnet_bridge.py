@@ -4,7 +4,8 @@
 import time
 import sys
 from python_artnet import python_artnet as Artnet
-from ring_helper import RGBW, IP, Fixture, assign_fixtures, A_INNER, A_OUTER, B_INNER, B_OUTER
+from ring_helper import RING_CONTROLLER_IP, A_INNER, A_OUTER, B_INNER, B_OUTER
+from artnet_helper import RGBW, Fixture, assign_fixtures
 from pyartnet import ArtNetNode
 import asyncio
 
@@ -21,7 +22,7 @@ async def main():
     artNet = Artnet.Artnet(artnetBindIp, DEBUG=debug)
     while True:
         try:
-            async with ArtNetNode.create(IP, 6454) as node:
+            async with ArtNetNode.create(RING_CONTROLLER_IP, 6454) as node:
                 # First get the latest Art-Net data
                 artNetBuffer = artNet.readBuffer()
                 # And make sure we actually got something

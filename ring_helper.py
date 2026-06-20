@@ -1,7 +1,7 @@
 import asyncio
 from pyartnet import ArtNetNode, Channel
 from dataclasses import dataclass
-from typing import Tuple
+from typing import Tuple, List
 
 @dataclass
 class RGBW:
@@ -13,6 +13,11 @@ class RGBW:
 
     def to_GRBW(self) -> Tuple:
         return [self.Green, self.Red, self.Blue, self.White]
+
+@dataclass
+class Fixture:
+    Universes: List[int]
+    Color: RGBW
 
 IP = '2.0.0.6'
 ALL_UNIVERSES = [199, 200, 201, 205, 206, 207, 211, 212, 217, 218]
@@ -40,15 +45,16 @@ async def set_inner_ring(node: ArtNetNode, color: RGBW, time: int):
 async def set_outer_ring(node: ArtNetNode, color: RGBW, time: int):
     await set_ring(node, OUTER_UNIVERSE, color.to_GRBW(), time)
 
-async def set_ring(node: ArtNetNode, universe_list, color: RGBW, time: int):
+async def set_ring(node: ArtNetNode, fixtures: List[Fixture], time: int):
     tasks = []
     
-    for universe_id in universe_list:
-        universe = node.add_universe(universe_id)
-        channel = universe.add_channel(start=1, width=512)
+    for fixture in fixtures:
+        for universe_id in fixture.Universes:
+            universe = node.add_universe(universe_id)
+            channel = universe.add_channel(start=1, width=512)
 
-        tasks.append(
-            asyncio.create_task(set_color(channel=channel, color=color.to_GRBW(), time=time))
-        )
+            tasks.append(
+                asyncio.create_task(set_color(channel=channel, color=fixture.Color.to_GRBW(), time=time))
+            )
 
     await asyncio.gather(*tasks)

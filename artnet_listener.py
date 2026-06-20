@@ -41,10 +41,11 @@ async def main():
                         new_outer = RGBW(dmxPacket[4], dmxPacket[5], dmxPacket[6], dmxPacket[7])
                         print(f"{new_inner=}{new_outer=}")
                         # if new_inner != inner:
+                        await set_outer_ring(node, new_outer, 1000)
                         await set_inner_ring(node, new_inner, 1000)
                             # inner = new_inner
                         # elif new_outer != outer:
-                        await set_outer_ring(node, new_outer, 1000)
+                        
                             # outer = new_outer
             time.sleep(0.1)
             

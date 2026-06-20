@@ -39,8 +39,7 @@ async def set_outer_ring(node: ArtNetNode, color: RGBW):
 async def set_ring(node: ArtNetNode, universe_list, color):
     tasks = []
     
-    for universe_id in universe_list:    
-        print(f"UNIVERSE: {universe_id}")
+    for universe_id in universe_list:
         universe = node.add_universe(universe_id)
         channel = universe.add_channel(start=1, width=512)
 

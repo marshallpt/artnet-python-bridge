@@ -1,8 +1,7 @@
 import time
 import sys
 from python_artnet import python_artnet as Artnet
-from ring_helper import RGBW, IP
-from ring_script import set_inner_ring, set_outer_ring
+from ring_helper import RGBW, IP, set_inner_ring, set_outer_ring
 from pyartnet import ArtNetNode, Channel
 import asyncio
 

@@ -18,6 +18,12 @@ async def set_color(channel: Channel, color):
     channel.add_fade(color*128, 1000)
     await channel
 
+async def set_inner_ring(node: ArtNetNode, color: RGBW):
+    await set_ring(node, INNER_UNIVERSE, color.to_GRBW())
+
+async def set_outer_ring(node: ArtNetNode, color: RGBW):
+    await set_ring(node, OUTER_UNIVERSE, color.to_GRBW())
+
 async def set_ring(node: ArtNetNode, universe_list, color):
     tasks = []
     

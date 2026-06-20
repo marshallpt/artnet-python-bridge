@@ -29,14 +29,7 @@ A_OUTER = [205, 206, 207]
 B_INNER = [211, 212]
 B_OUTER = [217, 218]
 
-# GRBW
-WHITE = [0, 0, 0, 255]
-ORANGE = [128, 255, 3, 0]
-BLUE = [112, 5, 252, 0]
-RED = [0, 255, 100, 0]
-OFF = [0, 0, 0, 0]
-
-async def set_color(channel: Channel, color, time: int):
+async def set_color(channel: Channel, color):
     await channel.set_values(color*128)
     await channel
 
@@ -44,13 +37,7 @@ async def fade_color(channel: Channel, color, time: int):
     channel.set_fade(color*128, 1000)
     await channel
 
-async def set_inner_ring(node: ArtNetNode, color: RGBW, time: int):
-    await set_ring(node, INNER_UNIVERSE, color.to_GRBW(), time)
-
-async def set_outer_ring(node: ArtNetNode, color: RGBW, time: int):
-    await set_ring(node, OUTER_UNIVERSE, color.to_GRBW(), time)
-
-async def set_ring(node: ArtNetNode, fixtures: List[Fixture], time: int):
+async def assign_fixture(node: ArtNetNode, fixtures: List[Fixture], time: int=0):
     tasks = []
     
     for fixture in fixtures:
@@ -58,8 +45,13 @@ async def set_ring(node: ArtNetNode, fixtures: List[Fixture], time: int):
             universe = node.add_universe(universe_id)
             channel = universe.add_channel(start=1, width=512)
 
-            tasks.append(
-                asyncio.create_task(set_color(channel=channel, color=fixture.Color.to_GRBW(), time=time))
-            )
+            if time == 0:
+                tasks.append(
+                    asyncio.create_task(set_color(channel=channel, color=fixture.Color.to_GRBW()))
+                )
+            else:
+                tasks.append(
+                    asyncio.create_task(fade_color(channel=channel, color=fixture.Color.to_GRBW(), time=time))
+                )
 
     await asyncio.gather(*tasks)

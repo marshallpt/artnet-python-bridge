@@ -2,7 +2,7 @@ import asyncio
 from pyartnet import ArtNetNode, Channel
 from dataclasses import dataclass
 from typing import Tuple
-from ring_helper import RGBW, INNER_UNIVERSE, OUTER_UNIVERSE, IP, set_ring
+from ring_helper import RGBW, INNER_UNIVERSE, OUTER_UNIVERSE, IP, assign_fixture
 
 # GRBW
 WHITE = [0, 0, 0, 255]
@@ -23,8 +23,8 @@ TIME = 1000
 async def main():
     async with ArtNetNode.create(IP, 6454) as node:
         await asyncio.gather(
-            set_ring(node, INNER_UNIVERSE, YELLOW, TIME),
-            set_ring(node, OUTER_UNIVERSE, PURPLE, TIME),
+            assign_fixture(node, INNER_UNIVERSE, YELLOW, TIME),
+            assign_fixture(node, OUTER_UNIVERSE, PURPLE, TIME),
         )
 
 asyncio.run(main())

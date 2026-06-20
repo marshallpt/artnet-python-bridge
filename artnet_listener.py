@@ -4,26 +4,21 @@
 import time
 import sys
 from python_artnet import python_artnet as Artnet
-from ring_helper import RGBW, IP, Fixture, set_ring, INNER_UNIVERSE, OUTER_UNIVERSE, A_INNER, A_OUTER, B_INNER, B_OUTER
-from pyartnet import ArtNetNode, Channel
+from ring_helper import RGBW, IP, Fixture, assign_fixture, A_INNER, A_OUTER, B_INNER, B_OUTER
+from pyartnet import ArtNetNode
 import asyncio
 
 debug = True
 
-# What DMX channels we want to listen to
-dmxChannels = [1,2,3,4,5,6,7,8]
-
 ### ArtNet Config ###
 artnetBindIp = "0.0.0.0"
-artnetUniverse = 3
+artnetListenUniverse = 3
 
 ### Art-Net Setup ###
 # Sets debug in Art-Net module.
 # Creates Artnet socket on the selected IP and Port
 async def main():
     artNet = Artnet.Artnet(artnetBindIp, DEBUG=debug)
-    inner = RGBW(0, 0, 0, 0)
-    outer = RGBW(0, 0, 0, 0)
     while True:
         try:
             async with ArtNetNode.create(IP, 6454) as node:
@@ -32,7 +27,7 @@ async def main():
                 # And make sure we actually got something
                 if artNetBuffer is not None:
                     # Get the packet from the buffer for the specific universe
-                    artNetPacket = artNetBuffer[artnetUniverse]
+                    artNetPacket = artNetBuffer[artnetListenUniverse]
                     # And make sure the packet has some data
                     if artNetPacket.data is not None:
                         # Stores the packet data array
@@ -49,10 +44,10 @@ async def main():
                             Fixture(B_INNER, new_b_inner),
                             Fixture(B_OUTER, new_b_outer)
                         ]
-                        # print(f"{fixtures=}")
-                        await set_ring(node, fixtures, 100)
+                        print(f"{fixtures=}")
+                        await assign_fixture(node=node, fixtures=fixtures)
                         
-            time.sleep(0.01)
+            time.sleep(0.0001)
             
         except KeyboardInterrupt:
             break

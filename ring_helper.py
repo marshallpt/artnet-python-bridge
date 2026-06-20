@@ -27,7 +27,7 @@ RED = [0, 255, 100, 0]
 OFF = [0, 0, 0, 0]
 
 async def set_color(channel: Channel, color):
-    channel.add_fade(color*128, 1000)
+    channel.set_fade(color*128, 1000)
     await channel
 
 async def set_inner_ring(node: ArtNetNode, color: RGBW):

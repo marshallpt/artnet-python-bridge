@@ -15,7 +15,7 @@ class RGBW:
         return [self.Green, self.Red, self.Blue, self.White]
 
 IP = '2.0.0.6'
-ALL_UNIVERSES = [199, 200, 201, 205, 206, 207, 211, 212, 217]
+ALL_UNIVERSES = [199, 200, 201, 205, 206, 207, 211, 212, 217, 218]
 INNER_UNIVERSE = [211, 212, 217, 218]
 OUTER_UNIVERSE = [199, 200, 201, 205, 206, 207]
 

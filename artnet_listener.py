@@ -1,3 +1,6 @@
+# Mostly copy/pasted from:
+# https://github.com/sciencegey/python_artnet/blob/main/samples/exampleReceiver.py
+
 import time
 import sys
 from python_artnet import python_artnet as Artnet

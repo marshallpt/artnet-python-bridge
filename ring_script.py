@@ -20,8 +20,6 @@ PURPLE = RGBW(134, 2, 249, 0).to_GRBW()
 
 TIME = 1000
 
-BULLSHIT = [213, 214, 215, 216, 218, 219, 220, 221, 222, 223, 224, 225]
-
 async def main():
     async with ArtNetNode.create(IP, 6454) as node:
         await asyncio.gather(

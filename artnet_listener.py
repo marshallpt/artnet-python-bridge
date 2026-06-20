@@ -4,7 +4,7 @@
 import time
 import sys
 from python_artnet import python_artnet as Artnet
-from ring_helper import RGBW, IP, set_inner_ring, set_outer_ring
+from ring_helper import RGBW, IP, set_inner_ring, set_outer_ring, set_ring, INNER_UNIVERSE, OUTER_UNIVERSE
 from pyartnet import ArtNetNode, Channel
 import asyncio
 
@@ -43,8 +43,9 @@ async def main():
                         new_inner = RGBW(dmxPacket[0], dmxPacket[1], dmxPacket[2], dmxPacket[3])
                         new_outer = RGBW(dmxPacket[4], dmxPacket[5], dmxPacket[6], dmxPacket[7])
                         print(f"{new_inner=}{new_outer=}")
-                        await set_outer_ring(node, new_outer, 1000)
-                        await set_inner_ring(node, new_inner, 1000)
+                        await set_ring(node, OUTER_UNIVERSE, new_outer, 100)
+                        await set_ring(node, INNER_UNIVERSE, new_inner, 100)
+                        
             time.sleep(0.01)
             
         except KeyboardInterrupt:

@@ -40,7 +40,7 @@ async def set_inner_ring(node: ArtNetNode, color: RGBW, time: int):
 async def set_outer_ring(node: ArtNetNode, color: RGBW, time: int):
     await set_ring(node, OUTER_UNIVERSE, color.to_GRBW(), time)
 
-async def set_ring(node: ArtNetNode, universe_list, color, time: int):
+async def set_ring(node: ArtNetNode, universe_list, color: RGBW, time: int):
     tasks = []
     
     for universe_id in universe_list:
@@ -48,7 +48,7 @@ async def set_ring(node: ArtNetNode, universe_list, color, time: int):
         channel = universe.add_channel(start=1, width=512)
 
         tasks.append(
-            asyncio.create_task(set_color(channel=channel, color=color, time=time))
+            asyncio.create_task(set_color(channel=channel, color=color.to_GRBW(), time=time))
         )
 
     await asyncio.gather(*tasks)

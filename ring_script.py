@@ -16,14 +16,15 @@ ORANGE = RGBW(100, 11, 0, 0).to_GRBW()
 GREEN = RGBW(14, 250, 2, 0).to_GRBW()
 YELLOW = RGBW(212, 249, 2, 0).to_GRBW()
 RED = RGBW(255, 0, 0, 0).to_GRBW()
+PURPLE = RGBW(134, 2, 249, 0).to_GRBW()
 
-TIME = 5000
+TIME = 1000
 
 async def main():
     async with ArtNetNode.create(IP, 6454) as node:
         await asyncio.gather(
-            set_ring(node, INNER_UNIVERSE, OFF, TIME),
-            set_ring(node, OUTER_UNIVERSE, OFF, TIME),
+            set_ring(node, INNER_UNIVERSE, BLUE, TIME),
+            set_ring(node, OUTER_UNIVERSE, PURPLE, TIME),
         )
 
 asyncio.run(main())

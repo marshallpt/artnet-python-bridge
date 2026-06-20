@@ -27,14 +27,14 @@ RED = [0, 255, 100, 0]
 OFF = [0, 0, 0, 0]
 
 async def set_color(channel: Channel, color, time: int):
-    channel.set_fade(color*128, time)
+    await channel.set_values(color*128)
     await channel
 
-async def set_inner_ring(node: ArtNetNode, color: RGBW):
-    await set_ring(node, INNER_UNIVERSE, color.to_GRBW())
+async def set_inner_ring(node: ArtNetNode, color: RGBW, time: int):
+    await set_ring(node, INNER_UNIVERSE, color.to_GRBW(), time)
 
-async def set_outer_ring(node: ArtNetNode, color: RGBW):
-    await set_ring(node, OUTER_UNIVERSE, color.to_GRBW())
+async def set_outer_ring(node: ArtNetNode, color: RGBW, time: int):
+    await set_ring(node, OUTER_UNIVERSE, color.to_GRBW(), time)
 
 async def set_ring(node: ArtNetNode, universe_list, color, time: int):
     tasks = []

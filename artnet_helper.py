@@ -22,7 +22,6 @@ class Fixture:
 
 async def set_color(channel: Channel, color):
     await channel.set_values(color*128)
-    await channel
 
 async def fade_color(channel: Channel, color, time: int):
     channel.set_fade(color*128, 1000)

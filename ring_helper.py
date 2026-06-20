@@ -30,6 +30,12 @@ async def set_color(channel: Channel, color):
     channel.add_fade(color*128, 1000)
     await channel
 
+async def set_inner_ring(node: ArtNetNode, color: RGBW):
+    await set_ring(node, INNER_UNIVERSE, color.to_GRBW())
+
+async def set_outer_ring(node: ArtNetNode, color: RGBW):
+    await set_ring(node, OUTER_UNIVERSE, color.to_GRBW())
+
 async def set_ring(node: ArtNetNode, universe_list, color):
     tasks = []
     
@@ -43,37 +49,3 @@ async def set_ring(node: ArtNetNode, universe_list, color):
         )
 
     await asyncio.gather(*tasks)
-
-class RingHelper():
-    def __init__(self, node: ArtNetNode):
-        self.node = node
-
-    @classmethod
-    async def create(cls):
-        node = await ArtNetNode.create(IP, 6454)
-        return cls(node)
-
-    async def __aenter__(self):
-        return self
-
-    async def __aexit__(self, exc_type, exc, tb):
-        await self.node.close()
-        pass
-
-    async def run(self, color: RGBW):
-        await asyncio.gather(
-            set_ring(self.node, INNER_UNIVERSE, color.to_GRBW()),
-            set_ring(self.node, OUTER_UNIVERSE, color.to_GRBW()),
-        )
-    
-    async def update_inner_ring(self, color: RGBW):
-        tasks = []
-        for universe_id in INNER_UNIVERSE:    
-            print(f"UNIVERSE: {universe_id}")
-            universe = self.node.add_universe(universe_id)
-            channel = universe.add_channel(start=1, width=512)
-
-            tasks.append(
-                asyncio.create_task(set_color(channel=channel, color=color.to_GRBW()))
-            )
-        await asyncio.gather(*tasks)

@@ -14,7 +14,9 @@ TIME = 1000
 
 async def main():
     async with ArtNetNode.create(RING_CONTROLLER_IP, 6454) as node:
-        entire_ring = Fixture(ALL_UNIVERSES, RED)
+        
+        entire_ring = Fixture(ALL_UNIVERSES, MAGENTA)
+        
         await asyncio.gather(
             assign_fixtures(node, [entire_ring], TIME)
         )

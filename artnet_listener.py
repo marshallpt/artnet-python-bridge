@@ -19,6 +19,8 @@ artnetUniverse = 0
 # Creates Artnet socket on the selected IP and Port
 async def main():
     artNet = Artnet.Artnet(artnetBindIp, DEBUG=debug)
+    inner = RGBW(0, 0, 0, 0)
+    outer = RGBW(0, 0, 0, 0)
     while True:
         try:
             async with ArtNetNode.create(IP, 6454) as node:
@@ -32,17 +34,18 @@ async def main():
                     if artNetPacket.data is not None:
                         # Stores the packet data array
                         dmxPacket = artNetPacket.data
-                        sequenceNo = artNetPacket.sequence
                         
                         # Then print out the data from each channel
                         print("Received data: ", end="")
-                        inner = RGBW(dmxPacket[0], dmxPacket[1], dmxPacket[2], dmxPacket[3])
-                        outer = RGBW(dmxPacket[4], dmxPacket[5], dmxPacket[6], dmxPacket[7])
-                        print(f"{inner=}{outer=}")
-                        await asyncio.gather(
-                            set_inner_ring(node, inner),
-                            set_outer_ring(node, outer)
-                        )
+                        new_inner = RGBW(dmxPacket[0], dmxPacket[1], dmxPacket[2], dmxPacket[3])
+                        new_outer = RGBW(dmxPacket[4], dmxPacket[5], dmxPacket[6], dmxPacket[7])
+                        print(f"{new_inner=}{new_outer=}")
+                        if new_inner != inner:
+                            await set_inner_ring(node, new_inner)
+                            inner = new_inner
+                        elif new_outer != outer:
+                            await set_outer_ring(node, new_outer)
+                            outer = new_outer
             time.sleep(0.1)
             
         except KeyboardInterrupt:

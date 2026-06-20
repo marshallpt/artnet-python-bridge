@@ -16,7 +16,7 @@ class RGBW:
 
 IP = '2.0.0.6'
 ALL_UNIVERSES = [199, 200, 201, 205, 206, 207, 211, 212, 217]
-INNER_UNIVERSE = [211, 212, 217]
+INNER_UNIVERSE = [211, 212, 217, 218]
 OUTER_UNIVERSE = [199, 200, 201, 205, 206, 207]
 
 # GRBW
@@ -28,6 +28,10 @@ OFF = [0, 0, 0, 0]
 
 async def set_color(channel: Channel, color, time: int):
     await channel.set_values(color*128)
+    await channel
+
+async def fade_color(channel: Channel, color, time: int):
+    channel.set_fade(color*128, 1000)
     await channel
 
 async def set_inner_ring(node: ArtNetNode, color: RGBW, time: int):

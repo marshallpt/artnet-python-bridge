@@ -4,7 +4,7 @@
 import time
 import sys
 from python_artnet import python_artnet as Artnet
-from ring_helper import RGBW, IP, Fixture, set_ring, INNER_UNIVERSE, OUTER_UNIVERSE
+from ring_helper import RGBW, IP, Fixture, set_ring, INNER_UNIVERSE, OUTER_UNIVERSE, A_INNER, A_OUTER, B_INNER, B_OUTER
 from pyartnet import ArtNetNode, Channel
 import asyncio
 
@@ -39,14 +39,17 @@ async def main():
                         dmxPacket = artNetPacket.data
                         
                         # Then print out the data from each channel
-                        print("Received data: ", end="")
-                        new_inner = RGBW(dmxPacket[0], dmxPacket[1], dmxPacket[2], dmxPacket[3])
-                        new_outer = RGBW(dmxPacket[4], dmxPacket[5], dmxPacket[6], dmxPacket[7])
+                        new_a_inner = RGBW(dmxPacket[0], dmxPacket[1], dmxPacket[2], dmxPacket[3])
+                        new_a_outer = RGBW(dmxPacket[4], dmxPacket[5], dmxPacket[6], dmxPacket[7])
+                        new_b_inner = RGBW(dmxPacket[8], dmxPacket[9], dmxPacket[10], dmxPacket[11])
+                        new_b_outer = RGBW(dmxPacket[12], dmxPacket[13], dmxPacket[14], dmxPacket[15])
                         fixtures = [
-                            Fixture(OUTER_UNIVERSE, new_outer),
-                            Fixture(INNER_UNIVERSE, new_inner)
+                            Fixture(A_INNER, new_a_inner),
+                            Fixture(A_OUTER, new_a_outer),
+                            Fixture(B_INNER, new_b_inner),
+                            Fixture(B_OUTER, new_b_outer)
                         ]
-                        print(f"{fixtures=}")
+                        # print(f"{fixtures=}")
                         await set_ring(node, fixtures, 100)
                         
             time.sleep(0.01)

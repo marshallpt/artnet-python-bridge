@@ -12,6 +12,7 @@ from ring_helper import (
 from artnet_helper import RGBW, Fixture, assign_fixtures
 
 MAGENTA = RGBW(237, 4, 249, 0)
+OFF = RGBW(0, 0, 0, 0)
 CYAN = RGBW(0, 200, 255, 0)
 BLUE = RGBW(0, 0, 255, 0)
 ORANGE = RGBW(100, 11, 0, 0)
@@ -31,9 +32,10 @@ async def main():
             Fixture(B_INNER, PURPLE),
             Fixture(B_OUTER, BLUE),
         ]
+        all_fixture = Fixture(ALL_UNIVERSES, OFF)
         
         await asyncio.gather(
-            assign_fixtures(node, fixtures, TIME)
+            assign_fixtures(node, [all_fixture], TIME)
         )
 
 asyncio.run(main())

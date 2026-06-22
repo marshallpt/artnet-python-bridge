@@ -2,8 +2,10 @@
 Art-Net publisher / subscriber node to expose a 10-universe GRBW
 LED strip fixture as four RGBW fixtures to be controlled in grandMA3.
 
+![rave chandalier](ring.png)
+
 ## How
-This would not have been possible without the following Pyton libraries:
+This would not have been possible without the following Python libraries:
 - [pyartnet](https://pypi.org/project/pyartnet/): for publishing Art-Net data
 - [python-artnet](https://pypi.org/project/python-artnet/) (and its example code): for subscribing / polling Art-Net data
 
@@ -12,7 +14,7 @@ Massive shoutout to the mainainers of these libraries.
 ## What
 - **artnet_helper.py**:
     - RGBW helper class because GRBW is unintuitive
-    - Helper methods for assigning an RGBW color value to an arbitrary number of Art-Net universes simulatenously
+    - Helper methods for assigning an RGBW color value to an arbitrary number of Art-Net universes simulatenously using asyncio
 - **ring_helper.py**:
     - Constants for the ring fixture
 - **ring_script.py**:
@@ -26,12 +28,12 @@ to communicate with it. The long-term plan is to use pixel mapping software
 (Madrix) to control it, but we didn't have the time to configure it, and the
 LD wanted to be able to control the color (alongside every other fixture)
 with grandMA3, and we ran up against fixture count limitations when trying
-to communicate with it directly..
+to communicate with it directly.
 
 Am happy to report this script worked flawlessly for the show. The only issue
-we ran into was I used the world's worst patch cable and my laptop got 
-disconnected from the switch briefly, but once that was corrected, the ring
-immediately resumed responding to commands.
+ was I used the world's worst patch cable and my laptop got 
+disconnected from the switch briefly so the colors / animations froze, 
+but once that was corrected, the ring immediately resumed responding to commands.
 
 ## Usage
 ### Preparation

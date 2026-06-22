@@ -76,5 +76,5 @@ For mapping multiple universes to a manageable set of fixtures.
 > When I started writing this I didn't think the performance would
 > be up to par for smooth animations, but I had no issues running
 > the bridge seen/described here on an i7-8750H (6-core, 12 thread)
-> Dell XPS from 2018. The refresh rate was extremely smooth and 
-> it looked like it was being controlled natively from grandMA3.
+> Dell XPS from 2018 on Python 3.14.6. The refresh rate was extremely 
+> smooth and it looked like it was being controlled natively from grandMA3.
